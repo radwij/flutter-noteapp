@@ -30,10 +30,7 @@ class _HomeState extends State<Home> {
       body: Stack(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 15,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Column(
               children: [
                 searchBox(),
@@ -41,10 +38,7 @@ class _HomeState extends State<Home> {
                   child: ListView(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
-                          top: 50,
-                          bottom: 20,
-                        ),
+                        margin: EdgeInsets.only(top: 50, bottom: 20),
                         child: Text(
                           'All ToDos',
                           style: TextStyle(
@@ -62,68 +56,61 @@ class _HomeState extends State<Home> {
                         ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Row(children: [
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(
-                    bottom: 20,
-                    right: 20,
-                    left: 20,
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(0.0, 0.0),
-                        blurRadius: 10.0,
-                        spreadRadius: 0.0,
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextField(
-                    controller: _todoController,
-                    decoration: InputDecoration(
-                        hintText: 'Add a new todo item',
-                        border: InputBorder.none),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  bottom: 20,
-                  right: 20,
-                ),
-                child: ElevatedButton(
-                  child: Text(
-                    '+',
-                    style: TextStyle(
-                      fontSize: 40,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 20, right: 20, left: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    decoration: BoxDecoration(
                       color: Colors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(0.0, 0.0),
+                          blurRadius: 10.0,
+                          spreadRadius: 0.0,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextField(
+                      controller: _todoController,
+                      decoration: InputDecoration(
+                        hintText: 'Add a new todo item',
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
-                  onPressed: () {
-                    _addToDoItem(_todoController.text);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: tdBlue,
-                    minimumSize: Size(60, 60),
-                    elevation: 10,
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 20, right: 20),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _addToDoItem(_todoController.text);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: tdBlue,
+                      minimumSize: Size(60, 60),
+                      elevation: 10,
+                    ),
+                    child: Text(
+                      '+',
+                      style: TextStyle(
+                          fontSize: 40,
+                          color: Colors.white
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ]),
+              ],
+            ),
           ),
         ],
       ),
@@ -144,10 +131,12 @@ class _HomeState extends State<Home> {
 
   void _addToDoItem(String toDo) {
     setState(() {
-      todosList.add(ToDo(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        todoText: toDo,
-      ));
+      todosList.add(
+        ToDo(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          todoText: toDo,
+        ),
+      );
     });
     _todoController.clear();
   }
@@ -156,30 +145,30 @@ class _HomeState extends State<Home> {
     _todoController.text = todo.todoText!;
 
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Edit ToDo'),
-            content: TextField(
-              controller: _todoController,
-              autofocus: true,
-              decoration: InputDecoration(hintText: 'Edit your task'),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Edit ToDo'),
+          content: TextField(
+            controller: _todoController,
+            autofocus: true,
+            decoration: InputDecoration(hintText: 'Edit your task'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancel'),
             ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('Cancel'),
-              ),
-              TextButton(
-                  onPressed: () {
-                    _updateToDoItem(todo);
-                    Navigator.pop(context);
-                  },
-                  child: Text('Save'),
-              )
-            ],
-          );
-        }
+            TextButton(
+              onPressed: () {
+                _updateToDoItem(todo);
+                Navigator.pop(context);
+              },
+              child: Text('Save'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -195,11 +184,14 @@ class _HomeState extends State<Home> {
     if (enteredKeyword.isEmpty) {
       results = todosList;
     } else {
-      results = todosList
-          .where((item) => item.todoText!
-              .toLowerCase()
-              .contains(enteredKeyword.toLowerCase()))
-          .toList();
+      results =
+          todosList
+              .where(
+                (item) => item.todoText!.toLowerCase().contains(
+                  enteredKeyword.toLowerCase(),
+                ),
+              )
+              .toList();
     }
 
     setState(() {
@@ -218,15 +210,8 @@ class _HomeState extends State<Home> {
         onChanged: (value) => _runFilter(value),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(0),
-          prefixIcon: Icon(
-            Icons.search,
-            color: tdBlack,
-            size: 20,
-          ),
-          prefixIconConstraints: BoxConstraints(
-            maxHeight: 20,
-            minWidth: 25,
-          ),
+          prefixIcon: Icon(Icons.search, color: tdBlack, size: 20),
+          prefixIconConstraints: BoxConstraints(maxHeight: 20, minWidth: 25),
           border: InputBorder.none,
           hintText: 'Search',
           hintStyle: TextStyle(color: tdGrey),
@@ -239,21 +224,23 @@ class _HomeState extends State<Home> {
     return AppBar(
       backgroundColor: tdBGColor,
       elevation: 0,
-      title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Icon(
-          Icons.menu,
-          color: tdBlack,
-          size: 30,
-        ),
-        Container(
-          height: 40,
-          width: 40,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.asset('assets/images/profile_picture.jpg'),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Icon(Icons.menu, color: tdBlack, size: 30),
+          Container(
+            height: 40,
+            width: 40,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.asset(
+                'assets/images/profile_picture.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }
