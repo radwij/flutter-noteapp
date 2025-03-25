@@ -7,12 +7,14 @@ class ToDoItem extends StatelessWidget {
   final ToDo todo;
   final onToDoChanged;
   final onDeleteItem;
+  final Function(ToDo) onEditItem;
 
   const ToDoItem({
     Key? key,
     required this.todo,
     required this.onToDoChanged,
     required this.onDeleteItem,
+    required this.onEditItem,
   }) : super(key: key);
 
   @override
@@ -41,24 +43,49 @@ class ToDoItem extends StatelessWidget {
             decoration: todo.isDone ? TextDecoration.lineThrough : null,
           ),
         ),
-        trailing: Container(
-          padding: EdgeInsets.all(0),
-          margin: EdgeInsets.symmetric(vertical: 12),
-          height: 35,
-          width: 35,
-          decoration: BoxDecoration(
-            color: tdRed,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: IconButton(
-            color: Colors.white,
-            iconSize: 18,
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              // print('Clicked on delete icon');
-              onDeleteItem(todo.id);
-            },
-          ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.all(0),
+              margin: EdgeInsets.symmetric(vertical: 12),
+              height: 35,
+              width: 35,
+              decoration: BoxDecoration(
+                color: tdBlue,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: IconButton(
+                color: Colors.white,
+                iconSize: 18,
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                  // print('Clicked on Edit icon');
+                  onEditItem(todo);
+                },
+              ),
+            ),
+            SizedBox(width: 10),
+            Container(
+              padding: EdgeInsets.all(0),
+              margin: EdgeInsets.symmetric(vertical: 12),
+              height: 35,
+              width: 35,
+              decoration: BoxDecoration(
+                color: tdRed,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: IconButton(
+                color: Colors.white,
+                iconSize: 18,
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  // print('Clicked on delete icon');
+                  onDeleteItem(todo.id);
+                },
+              ),
+            ),
+          ]
         ),
       ),
     );

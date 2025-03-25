@@ -58,6 +58,7 @@ class _HomeState extends State<Home> {
                           todo: todoo,
                           onToDoChanged: _handleToDoChange,
                           onDeleteItem: _deleteToDoItem,
+                          onEditItem: _editToDoItem,
                         ),
                     ],
                   ),
@@ -109,6 +110,7 @@ class _HomeState extends State<Home> {
                     '+',
                     style: TextStyle(
                       fontSize: 40,
+                      color: Colors.white,
                     ),
                   ),
                   onPressed: () {
@@ -146,6 +148,44 @@ class _HomeState extends State<Home> {
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         todoText: toDo,
       ));
+    });
+    _todoController.clear();
+  }
+
+  void _editToDoItem(ToDo todo) {
+    _todoController.text = todo.todoText!;
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Edit ToDo'),
+            content: TextField(
+              controller: _todoController,
+              autofocus: true,
+              decoration: InputDecoration(hintText: 'Edit your task'),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                  onPressed: () {
+                    _updateToDoItem(todo);
+                    Navigator.pop(context);
+                  },
+                  child: Text('Save'),
+              )
+            ],
+          );
+        }
+    );
+  }
+
+  void _updateToDoItem(ToDo todo) {
+    setState(() {
+      todo.todoText = _todoController.text;
     });
     _todoController.clear();
   }
